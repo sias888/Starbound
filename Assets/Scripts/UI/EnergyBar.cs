@@ -7,7 +7,7 @@ public class EnergyBar : MonoBehaviour
 {
     public Slider energyBar;
 
-    private float maxEnergy = 100f;
+    private float maxEnergy = 200f;
     private float currentEnergy;
 
     public static EnergyBar instance;
@@ -21,7 +21,7 @@ public class EnergyBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentEnergy = 0;
+        currentEnergy = maxEnergy;
         energyBar.maxValue = maxEnergy;
         energyBar.value = currentEnergy;
         //canFill = true;

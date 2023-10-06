@@ -13,13 +13,29 @@ public class AttackScript : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D col) {
-        if (col.gameObject.tag == "Enemies") {
-            if (!enemiesAlreadyHit.Contains(col.gameObject)) {
-                col.gameObject.GetComponentInParent<Enemy>().TakeDamage(25f);
-                Attack.instance.FillStam(10f);
-                enemiesAlreadyHit.Add(col.gameObject);
+        try {
+
+            if (col.gameObject.tag == "Enemies") {
+                if (!enemiesAlreadyHit.Contains(col.gameObject.transform.parent.gameObject)) {
+                    col.gameObject.GetComponentInParent<Enemy>().TakeDamage(Attack.instance.AttackDmgVal * ScoreManager.instance.GetScaling());
+                    Attack.instance.FillStam();
+                    ScoreManager.instance.Increment(100);
+                    enemiesAlreadyHit.Add(col.gameObject.transform.parent.gameObject);
+                }
             }
-        }
+            /*
+            if (col.gameObject.tag == "Enemy Projectile") {
+                if (!enemiesAlreadyHit.Contains(col.gameObject.transform.gameObject)) {
+                    //col.gameObject.GetComponentInParent<Enemy>().TakeDamage(Attack.instance.AttackDmgVal);
+                    col.gameObject.SetActive(false);
+                    Attack.instance.FillStam(1/3);
+                    enemiesAlreadyHit.Add(col.gameObject.transform.gameObject);
+                }
+            }
+            */
+
+        } catch{};
+        
 
         /*if (col.gameObject.tag == "Enemy Projectile") {
             col.gameObject.GetComponent<EnemyBulletHitbox>().Deflect();

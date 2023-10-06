@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4657197762130991674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7658946814071411237}
+  - component: {fileID: 2512152940932349312}
+  m_Layer: 0
+  m_Name: PlanetTile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7658946814071411237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4657197762130991674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2512152940932349312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4657197762130991674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbfd9fbbf81c8e4eb2d15dce669713e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pool:
+  - {fileID: 2964900354265138995, guid: e2932c8f6f7a5c841b38707f6d61dc8f, type: 3}
+  - {fileID: 2115708062299674407, guid: addfdd05ac7b4d841905e7fe09d2b0ba, type: 3}
+  - {fileID: 4258111367525363085, guid: 3d31bf6dd0410a749b50656af0af3b06, type: 3}
+  - {fileID: 2137863110096832181, guid: 2ca1883ce6c7e1646944da3ea313147b, type: 3}
+  - {fileID: 5420484614919653430, guid: 71c2a5521180f204cb9b57c7f624a29c, type: 3}
+  - {fileID: 7140851549572375650, guid: 79e1e62e20c826a4e9a6be59369e8850, type: 3}
+  speed: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 
@@ -17,6 +18,12 @@ public class PlayerScript : MonoBehaviour {
 
     public GameObject dodgePrefab;
 
+    public GameObject BulletBreaker;
+
+    private int BBcount = 3;
+
+    bool canBulletBreak = true;
+
     public static PlayerScript instance;
 
     enum State {
@@ -32,11 +39,12 @@ public class PlayerScript : MonoBehaviour {
     private Vector2 velocity = new Vector2(0,0);
 
     Rigidbody2D myRigidbody;
+    TrailRenderer trail;
 
     CircleCollider2D[] hurtboxes;
 
-    [SerializeField]
-    private float MOVESPEED = 6.25f;
+    //[SerializeField]
+    //private float MOVESPEED = 6.25f;
     [SerializeField]
     private float DODGESPEED = 20.5f;
     [SerializeField]
@@ -51,11 +59,13 @@ public class PlayerScript : MonoBehaviour {
 
     void Awake() {
         instance = this;
+        
     }
 
     // Start is called before the first frame update
     void Start() {
-
+        trail = transform.GetChild(0).GetComponent<TrailRenderer>();
+        
         myRigidbody = GetComponent<Rigidbody2D>();
         PlayerState = State.Move;
 
@@ -81,73 +91,59 @@ public class PlayerScript : MonoBehaviour {
 
     }
 
-    /*void LateUpdate() {
-        Vector2 viewPos = transform.position;
-        viewPos.x = Mathf.Clamp(viewPos.x, -screenBounds.x, screenBounds.x);
-        viewPos.y = Mathf.Clamp(viewPos.y, -1.86f, screenBounds.y);
-        transform.position = viewPos;
-    }*/
-
     void FixedUpdate() {
         if (PlayerState == State.Move || PlayerState == State.Cooldown)
             MoveNew();
     }
-
-    
-    /*
-    void HandleInput() {
-
-        if(isDead) {
-            return;
-        }
-
-        velocity.x = Input.GetAxisRaw("Horizontal");
-        velocity.y = Input.GetAxisRaw("Vertical");
-        velocity.Normalize();
-
-
-        float dodge = Input.GetAxis("Dodge");
-        if (!(dodge == 0f) && PlayerState == State.Move && HealthScript.instance.isHealing == false) {
-            if (velocity == Vector2.zero)
-                velocity = Vector2.up;
-            Dodge();
-        }
-
-    }
-    */
 
     void HandleInputNew() {
         if(isDead) {
             return;
         }
 
+        if (PauseControls.isPaused) {
+            return;
+        }
+
         float changeRatePerSecond = Time.deltaTime/timeFromZeroToMax;
         moveTowards = new Vector2(0,0);
-        //Capture key presses
-        moveTowards.x = Input.GetAxisRaw("Horizontal");
-        moveTowards.y = Input.GetAxisRaw("Vertical");
+        moveTowards = PlayerInput.instance.getMoveVector();
         moveTowards.Normalize();
 
         if (!HealthScript.instance.isHealing) {
             Value.x = Mathf.MoveTowards(Value.x, moveTowards.x*maxSpeed, changeRatePerSecond);
             Value.y = Mathf.MoveTowards(Value.y, moveTowards.y*maxSpeed, changeRatePerSecond);
         } else {
-            Value.x = Mathf.MoveTowards(Value.x, moveTowards.x*maxSpeed/3, changeRatePerSecond);
-            Value.y = Mathf.MoveTowards(Value.y, moveTowards.y*maxSpeed/3, changeRatePerSecond);
-        } 
-
-
-
-        if (Input.GetButtonDown("Jump") && PlayerState == State.Move && HealthScript.instance.isHealing == false) {
-            if (moveTowards == Vector2.zero)
-                moveTowards = Vector2.up;
-            Dodge();
+            Value.x = Mathf.MoveTowards(Value.x, moveTowards.x*maxSpeed/2, changeRatePerSecond);
+            Value.y = Mathf.MoveTowards(Value.y, moveTowards.y*maxSpeed/2, changeRatePerSecond);
         }
 
         
+        if (PlayerInput.instance.getDodgePressed() && PlayerState == State.Move && HealthScript.instance.isHealing == false) {
+            if (moveTowards == Vector2.zero)
+                moveTowards = Vector2.up;
+            Dodge();
+            PlayerInput.instance.SetDodgePressed(false);
+        }
+        
+        if (HealthScript.instance.isHealing && PlayerInput.instance.getDodgePressed()) {
+            if (canBulletBreak && BBcount > 0) {
+                GameObject g = Instantiate(BulletBreaker);
+                g.SetActive(true);
+                BBcount--;
+                BulletBreakerIcons.instance.BulletBreak(BBcount);
+                canBulletBreak = false;
+                Invoke("SetBBTrue", 2.5f);
+            }
+        }
+        
     }
 
-    void Move() {
+    void SetBBTrue() {
+        canBulletBreak = true;
+    }
+
+    /*void Move() {
 
         //set transform.position from Vector3 to Vector2
         //Vector2 v = transform.position;
@@ -155,34 +151,13 @@ public class PlayerScript : MonoBehaviour {
 
         myRigidbody.velocity = velocity * MOVESPEED;
 
-    }
+    }*/
 
 
     void MoveNew() {
         myRigidbody.velocity = Value;
     }
 
-    //A dodge is:
-    //  A dash in a direction for a certain number of frames
-    /*
-    void Dodge() {
-
-        if (dodgeCount < DODGEDURATION) {
-
-            Vector2 v = transform.position;
-            velocity.Normalize();
-            myRigidbody.MovePosition(v + velocity * Time.fixedDeltaTime * DODGESPEED);
-            dodgeCount++;
-
-        } else {
-
-            PlayerState = State.Cooldown;
-            dodgeCooldown = 0;
-
-        }
-
-    }
-    */
 
     void Dodge() {
         StartCoroutine(DodgeRoutine());
@@ -193,6 +168,8 @@ public class PlayerScript : MonoBehaviour {
 
         //Start animation
         Instantiate(dodgePrefab, transform);
+        
+        trail.emitting = true;
 
         //Start dodge
         myRigidbody.velocity = moveTowards * DODGESPEED;
@@ -214,6 +191,7 @@ public class PlayerScript : MonoBehaviour {
         PlayerState = State.Cooldown;
         //Cooldown afterwards
         yield return new WaitForSeconds(DODGECOOLDOWN);
+        trail.emitting = false;
         PlayerState = State.Move;
     }
 

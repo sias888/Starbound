@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class HealthScript : MonoBehaviour
 {
     public static HealthScript instance;
 
     public GameObject HealPrefab;
+    public GameObject PreHealPrefab;
     private GameObject h;
+    private GameObject ph;
 
     Animator animator;
     Rigidbody2D rigidBody;
     public float maxHealth = 100;
     private float currentHealth;
+    public float healScale = 0.33f;
 
     private Vector2 knockbackDirection;
 
@@ -34,9 +38,16 @@ public class HealthScript : MonoBehaviour
 
     public bool isHealing;
 
+    public GameObject DeathScreen;
+
+    public Shader PaintWhite;
+    Shader CurShader;
+
     void Awake()
     {
         instance = this;
+
+        CurShader = GetComponentInChildren<SpriteRenderer>().material.shader;
 
         currentHealth = maxHealth;
         animator = gameObject.GetComponent<Animator>();
@@ -57,23 +68,34 @@ public class HealthScript : MonoBehaviour
         isHealing = false;
     }
 
+    public float HealSpeed = 0.1f;
     void Update() {
 
-        if (Input.GetButtonDown("Heal")) {
-            h = Instantiate(HealPrefab, transform);
+        if (PlayerScript.instance.isDead) return;
+        
+        //1 = button was pressed, 2 = button is being held (for x secs), 0 = let go of button
+        int healPressed = PlayerInput.instance.getHealPressed();
+
+        if (healPressed == 1 && !PauseControls.isPaused && PlayerScript.instance.enabled) {
+            if (!ph) 
+                ph = Instantiate(PreHealPrefab, transform.GetChild(5).transform);
+
             isHealing = true;
         }
-
         
-        if (Input.GetButton("Heal")) {
-            if (EnergyBar.instance.GetCur() > 0.2f) {
-                EnergyBar.instance.useEnergy(0.2f);
-                Heal(0.2f*(1/3f));
+        if (healPressed == 2 && !PauseControls.isPaused) {
+            if (!h) 
+                h = Instantiate(HealPrefab, transform);
+
+            if (EnergyBar.instance.GetCur() > HealSpeed && currentHealth < maxHealth) {
+                EnergyBar.instance.useEnergy(HealSpeed);
+                Heal(HealSpeed*0.5f);
             }
         }
 
-        if (Input.GetButtonUp("Heal")) {
-            Destroy(h);
+        if (healPressed == 0 && !PauseControls.isPaused) {
+            if (ph) Destroy(ph);
+            if (h) Destroy(h);
             isHealing = false;
         }
 
@@ -83,10 +105,15 @@ public class HealthScript : MonoBehaviour
 
         if (canTakeDamage) {
 
+            float scaling = 1.5f * 1/ScoreManager.instance.GetScaling();
+
+            if (scaling > 1) scaling = 1;
+
             shakeScreen.LargeShake();
 
-            currentHealth -= damage;
-            HealthBar.instance.LoseHP(damage);
+            currentHealth -= damage * scaling;
+            HealthBar.instance.LoseHP(damage * scaling);
+            ScoreManager.instance.Decrement(Mathf.RoundToInt(ScoreManager.instance.GetScore()*0.5f));
 
             StartCoroutine(AddScreenEffects());
 
@@ -134,28 +161,38 @@ public class HealthScript : MonoBehaviour
     IEnumerator HurtAnimationRoutine() {
         canTakeDamage = false;
 
-        sr.sprite = whiteSprite;
-        yield return new WaitForSeconds(0.1f);
-        sr.sprite = defaultSprite;
-        yield return new WaitForSeconds(0.05f);
-        sr.sprite = whiteSprite;
-        yield return new WaitForSeconds(0.1f);
-        sr.sprite = defaultSprite;
-        yield return new WaitForSeconds(0.05f);
-        sr.sprite = whiteSprite;
-        yield return new WaitForSeconds(0.1f);
-        sr.sprite = defaultSprite;
-        yield return new WaitForSeconds(0.05f);
-        sr.sprite = whiteSprite;
-        yield return new WaitForSeconds(0.1f);
-        sr.sprite = defaultSprite;
-        yield return new WaitForSeconds(graceTime - 4*0.1f - 3*0.05f);
+        StartCoroutine(Hurt());
 
+        yield return new WaitForSeconds(graceTime);
+    
         canTakeDamage = true;
     }
 
+    IEnumerator Hurt() {
+
+        transform.gameObject.GetComponentInChildren<SpriteRenderer>().material.shader = PaintWhite;
+            
+        // show a white flash for a little moment
+        yield return new WaitForSeconds(0.1f);
+    
+        //put again the shader it had before 
+        transform.gameObject.GetComponentInChildren<SpriteRenderer>().material.shader = CurShader;
+
+        yield return new WaitForSeconds(0.1f);
+
+        transform.gameObject.GetComponentInChildren<SpriteRenderer>().material.shader = PaintWhite;
+            
+        // show a white flash for a little moment
+        yield return new WaitForSeconds(0.1f);
+    
+        //put again the shader it had before 
+        transform.gameObject.GetComponentInChildren<SpriteRenderer>().material.shader = CurShader;
+    }
+
     void Die() {
-        Debug.Log("You died!");
+        //Debug.Log("You died!");
         transform.GetComponent<PlayerScript>().isDead = true;
+        Time.timeScale = 0f;
+        DeathScreen.SetActive(true);
     }
 }

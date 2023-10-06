@@ -2,7 +2,9 @@ Shader "PaintWhite"
  {
     Properties
     {
+        _MyColour ("My Colour", Color) = (255,219,124,255)
         _MainTex ("Particle Texture (Alpha8)", 2D) = "white" {}
+
     }
     
     Category

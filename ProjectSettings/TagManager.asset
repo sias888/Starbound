@@ -10,11 +10,14 @@ TagManager:
   - ScreenEffects
   - Enemy Projectile
   - UpperBound
+  - MapBounds
+  - Boss
+  - BulletDestroyer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerWall
   - Water
   - UI
   - Enemies
@@ -47,12 +50,24 @@ TagManager:
   - name: Background
     uniqueID: 410228555
     locked: 0
-  - name: Beam
-    uniqueID: 1291825311
+  - name: PlayerBullet
+    uniqueID: 189266423
     locked: 0
   - name: Enemies
     uniqueID: 3398036947
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PlayerAttack
+    uniqueID: 1488504235
+    locked: 0
+  - name: Beam
+    uniqueID: 1291825311
+    locked: 0
+  - name: EnemyBullet
+    uniqueID: 154157853
+    locked: 0
+  - name: UI
+    uniqueID: 133135587
     locked: 0

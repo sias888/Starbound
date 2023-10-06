@@ -4,37 +4,112 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public int EnemyType;
+    [SerializeField]
+    protected AnimationCurve curve;
+    //public int EnemyType;
+    /*
     public void SetEnemyType(int i) {
-        EnemyType = i;
-    }
+        //EnemyType = i;
+    }*/
 
     public bool StartAI;
+    protected float damageScaling = 1f;
 
-    public void TriggerAI(bool b) {
+    public virtual void TriggerAI(bool b) {
         StartAI = b;
+        if (b == true)
+            gameObject.GetComponent<EnemyHP>().Armor = false;
     }
 
-    void Update() {
-        if (StartAI) {
-            Shoot();
-        } else {
-            Stop();
-        }
+    bool SideToSide = false;
+    float SideToSideSpeed = 0f;
+    public void SideToSideTrigger(bool b, float s) {
+        //Debug.Log("triggered!");
+        SideToSide = b;
+        SideToSideSpeed = s;
     }
+
+    public void SideToSideSwap() {
+        //Debug.Log("amongus");
+        SideToSideSpeed *= -1;
+    }
+
+    Vector2 velocity = new Vector2(0,0);
+
+    virtual protected void FixedUpdate() {
+        //Debug.Log(velocity);
+        //SideToSideController
+        if (!SideToSide) {
+            velocity = new Vector2(0,0);
+        }
+        if (SideToSide) {
+            velocity = new Vector2(SideToSideSpeed,0);
+        }
+        transform.position += (Vector3)velocity*Time.fixedDeltaTime;
+
+    }
+
+
 
     public void Move(Vector2 target, float movetime) {
-        Vector2 cur = transform.position;
-        Vector2 dir = target - cur;
-        StartCoroutine(MoveToLocation(dir, movetime));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(MoveToLocation(target, movetime));
     }
 
-    IEnumerator MoveToLocation(Vector2 d, float movetime) {
-        Vector3 dir = d;
+    public void MoveAndStart(Vector2 target, float movetime) {
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(MoveToLocationAndStart(target, movetime));
+    }
 
-        for (int i = 0; i < 100; i++) {
-            transform.position = transform.position + dir/100;
-            yield return new WaitForSeconds(movetime/100);
+    public IEnumerator MoveToLocationAndStart(Vector3 d, float movetime) {
+        Vector3 dir = d;
+        Vector3 target = transform.position + dir;
+        Vector3 start = transform.position;
+
+        float dist = Vector3.Distance(target, start);
+
+        Vector3 currentPosition = start;
+
+        curve = AnimationCurve.EaseInOut(0,0,1,1);
+
+        float t = 0;
+        
+        while (t < movetime) {
+            currentPosition = Vector3.Lerp(start,target,curve.Evaluate(t/movetime));
+            //Debug.Log(t);
+            t += Time.deltaTime;
+
+            transform.position = currentPosition;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        TriggerAI(true);
+        //StartAI = true;
+    }
+
+    protected IEnumerator MoveToLocation(Vector3 d, float movetime) {
+        Vector3 dir = d;
+        Vector3 target = transform.position + dir;
+        Vector3 start = transform.position;
+
+        float dist = Vector3.Distance(target, start);
+
+        Vector3 currentPosition = start;
+
+        curve = AnimationCurve.EaseInOut(0,0,1,1);
+
+        float t = 0;
+        
+        while (t < movetime) {
+            currentPosition = Vector3.Lerp(start,target,curve.Evaluate(t/movetime));
+            //Debug.Log(t);
+            t += Time.deltaTime;
+
+            transform.position = currentPosition;
+
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -42,11 +117,16 @@ public class EnemyAI : MonoBehaviour
 
     public virtual void Stop() {}
 
+    public GameObject explosion;
+    protected float explosionModifier = 1;
     public virtual void OnDeath() {
+        //Debug.Log("AMongus2??");
         StartAI = false;
+        StopAllCoroutines();
+        GameObject e = Instantiate(explosion, transform.position, Quaternion.identity);
+        e.transform.localScale = new Vector3(3* explosionModifier,3* explosionModifier,1);
         transform.gameObject.SetActive(false);
-        EventHandler.instance.EnemyDeathTrigger(EnemyType);
-        Debug.Log("dying!!! " + EnemyType);
+        EnemyDeathEventHandler.instance.EnemyDeathTrigger(this.gameObject);
     }
 
 }

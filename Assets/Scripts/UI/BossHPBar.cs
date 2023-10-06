@@ -7,7 +7,9 @@ public class BossHPBar : MonoBehaviour
 {
     public Slider bossHP;
 
-    float MaxHP = 5000;
+    public GameObject boss;
+
+    public float MaxHP = 6000;
     float currentHP;
 
     public static BossHPBar instance;
@@ -16,6 +18,7 @@ public class BossHPBar : MonoBehaviour
     void Awake()
     {
         instance = this;
+        MaxHP = boss.GetComponent<BossHP>().MaxHP;
     }
 
     void Start() {
@@ -30,6 +33,18 @@ public class BossHPBar : MonoBehaviour
 
         if (currentHP <= 0) {
             bossHP.gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
+    }
+
+    void Update() {
+        if (currentHP <= 0) {
+            bossHP.gameObject.SetActive(false);
+        } 
+    }
+
+    public void Die() {
+        gameObject.SetActive(false);
+        bossHP.gameObject.SetActive(false);
     }
 }

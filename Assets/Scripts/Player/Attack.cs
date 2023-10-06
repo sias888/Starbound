@@ -16,6 +16,8 @@ public class Attack : MonoBehaviour
     public GameObject AttackFollowPrefab;
     GameObject AttackPrefabClone;
     public Transform AttackPoint;
+    public float StamFillVal = 5f;
+    public float AttackDmgVal = 25f;
 
     //public Sprite originalSprite;
     //public Sprite changedSprite;
@@ -59,10 +61,12 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerScript.instance.isDead) return;
 
-        if ((Input.GetKeyDown(KeyCode.Quote) || Input.GetButtonDown("Melee")) && HealthScript.instance.isHealing == false) {
+        if (PlayerInput.instance.getMeleePressed() && HealthScript.instance.isHealing == false && !PauseControls.isPaused) {
             if (attackState == AttackState.Ready) AttackMethod();
             if (attackState == AttackState.ReadyFollow) AttackFollow();
+            PlayerInput.instance.setMeleePressed(false);
         }
 
         /*
@@ -87,8 +91,8 @@ public class Attack : MonoBehaviour
         AttackPrefabClone = Instantiate(AttackPrefab, AttackPoint);
         attackState = AttackState.Attacking;
         yield return new WaitForSeconds(attackTime);
-        yield return new WaitForSeconds(attackPostTime);
 
+        yield return new WaitForSeconds(attackPostTime);
         attackState = AttackState.ReadyFollow;
         //mySprite.sprite = originalSprite;
     }
@@ -99,17 +103,22 @@ public class Attack : MonoBehaviour
     }
 
     IEnumerator AttackFollowCooldown() {
-        yield return new WaitForSeconds(anticipation);
+        //yield return new WaitForSeconds(anticipation);
         AttackPrefabClone = Instantiate(AttackFollowPrefab, AttackPoint);
         attackState = AttackState.Attacking;
         yield return new WaitForSeconds(attackTime);
+        
         yield return new WaitForSeconds(attackPostTime);
         attackState = AttackState.Ready;
         //mySprite.sprite = originalSprite;
     }
 
-    public void FillStam(float val) {
-        EnergyBar.instance.fillEnergy(val);
+    public void FillStam() {
+        EnergyBar.instance.fillEnergy(StamFillVal);
+    }
+
+    public void FillStam(float ratio) {
+        EnergyBar.instance.fillEnergy(StamFillVal*ratio);
     }
 
     /*
