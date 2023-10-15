@@ -104,16 +104,18 @@ public class Fire : MonoBehaviour
     */
 
     void Shoot() {
+
         #nullable enable
         List<GameObject>? bullets = PlayerBulletPool.instance.GetBullets(shootPoints.Length);
-
         if (bullets == null) return;
         #nullable disable
+
         for(int i = 0; i < shootPoints.Length; i++) {
             bullets[i].transform.position = shootPoints[i].position;
             bullets[i].GetComponent<PlayerBulletScript>().SetDamage(DAMAGE);
             bullets[i].SetActive(true);
         }
+        PlayerBulletAudio.instance.PlayClip();
 
         shootState = ShootState.NoShoot;
         StartCoroutine(ShootCooldown());

@@ -33,9 +33,12 @@ public class DeadController : MonoBehaviour
 
     public void Retry() {
         if (canSelect) {
-        //this.transform.parent.gameObject.SetActive(false);
             Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Invoke("LoadScene", 0.1f);
+            PlayerScript.instance.enabled = true;
+            PauseControls.isPaused = false;
+            PlayerInput.instance.EnableDodge(false);
+            PlayerInput.instance.SetDodgePressed(false);
         }
     }
     public void MainMenu() {
@@ -44,6 +47,7 @@ public class DeadController : MonoBehaviour
             Invoke("LoadScene", 0.1f);
             PlayerScript.instance.enabled = true;
             PauseControls.isPaused = false;
+            PlayerInput.instance.EnableDodge(false);
             PlayerInput.instance.SetDodgePressed(false);
         }
     }

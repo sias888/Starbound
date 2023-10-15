@@ -22,6 +22,7 @@ public class LaserArm : EnemyAI
     GameObject l;
     void ShootLaser() {
         l = Instantiate(beam, firepoint.transform);
+        //BeamStartAudio.instance.PlayClip();
     }
 
     void FinishLaser() {
@@ -43,7 +44,6 @@ public class LaserArm : EnemyAI
 
     public override void OnDeath()
     {
-        Debug.Log("Amongus");
         if (l) FinishLaser();
         base.OnDeath();
     }

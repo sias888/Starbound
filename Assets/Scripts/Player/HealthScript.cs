@@ -84,16 +84,17 @@ public class HealthScript : MonoBehaviour
         }
         
         if (healPressed == 2 && !PauseControls.isPaused) {
-            if (!h) 
-                h = Instantiate(HealPrefab, transform);
 
             if (EnergyBar.instance.GetCur() > HealSpeed && currentHealth < maxHealth) {
+                if (!h) h = Instantiate(HealPrefab, transform);
+                HealAudio.instance.StartClip();
                 EnergyBar.instance.useEnergy(HealSpeed);
                 Heal(HealSpeed*0.5f);
             }
         }
 
         if (healPressed == 0 && !PauseControls.isPaused) {
+            HealAudio.instance.StopClip();
             if (ph) Destroy(ph);
             if (h) Destroy(h);
             isHealing = false;
@@ -115,6 +116,7 @@ public class HealthScript : MonoBehaviour
             HealthBar.instance.LoseHP(damage * scaling);
             ScoreManager.instance.Decrement(Mathf.RoundToInt(ScoreManager.instance.GetScore()*0.5f));
 
+            PlayerDamaged.instance.PlayClip();
             StartCoroutine(AddScreenEffects());
 
             StartCoroutine(HurtAnimationRoutine());

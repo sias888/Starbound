@@ -202,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minTime: 0.1
   maxTime: 0.15
+  Phase: 0
 --- !u!1102 &-1187542504484050733
 AnimatorState:
   serializedVersion: 6

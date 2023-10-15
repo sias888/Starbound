@@ -67,6 +67,7 @@ public class PlayerBulletScript : MonoBehaviour
                     col.gameObject.GetComponentInParent<Enemy>().TakeDamage(DAMAGE * ScoreManager.instance.GetScaling());
                     enemiesAlreadyHit.Add(col.gameObject);
                     animator.Play("BulletExplode");
+                    //MeleeImpactAudio.instance.PlayClip();
                     updateVelocity = false;
                     DestroyAfter(0.1f);
                 }

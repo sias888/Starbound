@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenuControls : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PauseMenuControls : MonoBehaviour
         PauseControls.isPaused = false;
         PlayerInput.instance.SetDodgePressed(false);
     }
+
 
     void LoadScene() {
         SceneManager.LoadScene("Level1");

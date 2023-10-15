@@ -9,7 +9,7 @@ public class BossTP : StateMachineBehaviour
 
     private Vector3 currPos;
 
-    private Vector3[] positions = new Vector3[] {new Vector3(-1.35f, 1.75f, 1), new Vector3(1.35f, 1.75f, 1), new Vector3(0f, 2.15f, 1)};
+    private Vector3[] positions = new Vector3[] {new Vector3(-1.25f, 1.75f, 1), new Vector3(1.25f, 1.75f, 1), new Vector3(0f, 2.15f, 1)};
     private int currIndex;
     private int indexA;
     private int indexB;
@@ -17,6 +17,7 @@ public class BossTP : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        TeleportAudio.instance.PlayClip();
         nextLocation = Random.Range(0,9); //Randomizes next teleport position
 
         currPos = animator.transform.position; //current position

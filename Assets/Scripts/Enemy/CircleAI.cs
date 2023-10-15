@@ -39,7 +39,7 @@ public class CircleAI : EnemyAI
         StartCoroutine(Move(endPos,f, curve));
 
         yield return new WaitForSeconds(f);
-        base.OnDeath();
+        OnDeath();
     }
 
     private IEnumerator Move(Vector3 d, float movetime, AnimationCurve a) {

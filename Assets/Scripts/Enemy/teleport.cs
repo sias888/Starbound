@@ -9,6 +9,7 @@ public class teleport : MonoBehaviour
     public Animator anim;
     void OnTriggerEnter2D(Collider2D col) {
         if (col.gameObject.tag == "PlayerHurtbox") {
+            TeleportAudio.instance.PlayClip();
             col.transform.parent.GetChild(0).gameObject.SetActive(false);
             PlayerScript.instance.enabled = false;
             anim.SetTrigger("Despawn");

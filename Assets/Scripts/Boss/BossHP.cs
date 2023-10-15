@@ -37,9 +37,10 @@ public class BossHP : Enemy
 
         //if (currentHP <= MaxHP/2) anim.SetTrigger("Phase2");
 
-        if (amnt < 10) {
+        if (amnt < 30) {
             shakeScreen.SmallShake();
         } else {
+            MeleeImpactAudio.instance.PlayClip();
             shakeScreen.MedShake();
         }
 

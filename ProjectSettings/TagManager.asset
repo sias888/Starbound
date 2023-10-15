@@ -13,6 +13,7 @@ TagManager:
   - MapBounds
   - Boss
   - BulletDestroyer
+  - Beam
   layers:
   - Default
   - TransparentFX

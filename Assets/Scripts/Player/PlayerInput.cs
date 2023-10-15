@@ -8,14 +8,18 @@ public class PlayerInput : MonoBehaviour
     //Will receive all player inputs and broadcast to relevant parties.
     public static PlayerInput instance;
 
+    public InputActionAsset inputActions;
+
     private Vector2 moveVector;
     public  Vector2 getMoveVector() {
         return moveVector;
     }
 
     private bool dodgePressed = false;
-    public  bool getDodgePressed() {
-        return dodgePressed;
+    public bool getDodgePressed() {
+        bool b = dodgePressed;
+        dodgePressed = false;
+        return b;
     }
 
     public void SetDodgePressed(bool b) {
@@ -45,17 +49,24 @@ public class PlayerInput : MonoBehaviour
 
     void Awake() {
         instance = this;
+        PlayerInput.instance.EnableDodge(true);
+    }
+
+    public void EnableDodge(bool b) {
+        if (b) {
+            inputActions.FindAction("Dodge").Enable();
+            return;
+        }
+        inputActions.FindAction("Dodge").Disable();
     }
 
 
     public void Dodge(InputAction.CallbackContext context) {
-        if (context.started && dodgePressed == false) {
-            //PlayerScript.instance.SetDodgePressed(true);
+        if (context.started && dodgePressed == false && !PauseControls.isPaused) {
             dodgePressed = true;
         }
 
-        if (context.canceled) {
-          //PlayerScript.instance.SetDodgePressed(false);
+        if (context.performed) {
             dodgePressed = false;
         }
     }

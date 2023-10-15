@@ -369,11 +369,12 @@ public class BossAI : EnemyAI
         BossIdle.instance.CanExit(false);
 
         int r = Random.Range(5,8);
+        //BeamLoopAudio.instance.Mute(true);
 
         for (int i = 0; i<r; i++) {
             Vector3 player = PlayerScript.instance.transform.position;
             b = Instantiate(beam);
-            Destroy(b,5f);
+            Destroy(b,LBBWaitTime*1.2f);
             b.transform.position = transform.position;
 
             Vector3 targetDir = player - transform.position;
@@ -383,11 +384,12 @@ public class BossAI : EnemyAI
 
             StartCoroutine(LBBHelper(b));
 
-            yield return new WaitForSeconds(LBBWaitTime*0.5f);
+            yield return new WaitForSeconds(LBBWaitTime*0.75f);
             //Destroy(b,0.5f);
         }
         Destroy(e);
         yield return new WaitForSeconds(0.5f);
+        //BeamLoopAudio.instance.Mute(false);
         BossIdle.instance.CanExit(true);
     }
 
@@ -813,13 +815,13 @@ public class BossAI : EnemyAI
     public void DeathHelper() {
         StopAllCoroutines();
 
-        if (a) Destroy(a);
+        if (a) a.GetComponent<Animator>().Play("ThickLaserFinish");;
 
-        if (b) Destroy(b);
+        if (b) b.GetComponent<Animator>().Play("ThickLaserFinish");;
 
-        if (c) Destroy(c);
+        if (c) c.GetComponent<Animator>().Play("ThickLaserFinish");;
 
-        if (d) Destroy(d);
+        if (d) d.GetComponent<Animator>().Play("ThickLaserFinish");;
 
         if (e) Destroy(e);
 
@@ -845,6 +847,7 @@ public class BossAI : EnemyAI
             float yoffset = Random.Range(-1,2) * 1f;
 
             GameObject e = Instantiate(Explosion, t);
+            EnemyDieAudio.instance.PlayClip();
             e.transform.position = e.transform.position + new Vector3(xoffset,yoffset,0);
             e.transform.localScale = new Vector3(1.5f,1.5f,1);
             yield return new WaitForSeconds(0.05f);

@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 // Player functionality:
-    // 1) Move. All cardinal directions. Must be smooth, responsive. DONE
-    // 2) Shoot. Primary means of attack. Can be spammable, intended to be the "hold down and dont think much" option.
-    //    Has a meter. Shooting will reduce meter. At empty meter, must wait until meter is halfway full. Stamina management. YELLOW
-    // 3) Dodge. Has i-frames. Small unidirectional dodge. Shoots player in last moved direction a set distance.
-    //    Cannot move during a dodge. Has startup frames. Can shoot while dodging. DESATURATED GREEN.
-    // 4) Melee. Secondary means of attack. Lower range, higher damage. Has startup and endlag. Hitbox is > 180 but < 270 degrees.
-    //    Sweet spot in front 90 deg does extra damage. YELLOW. Sweet spot: ORANGE.
-    // I need a new ship model. Simple--colour should be the main language DONE
+// 1) Move. All cardinal directions. Must be smooth, responsive. DONE
+// 2) Shoot. Primary means of attack. Can be spammable, intended to be the "hold down and dont think much" option.
+//    Has a meter. Shooting will reduce meter. At empty meter, must wait until meter is halfway full. Stamina management. YELLOW
+// 3) Dodge. Has i-frames. Small unidirectional dodge. Shoots player in last moved direction a set distance.
+//    Cannot move during a dodge. Has startup frames. Can shoot while dodging. DESATURATED GREEN.
+// 4) Melee. Secondary means of attack. Lower range, higher damage. Has startup and endlag. Hitbox is > 180 but < 270 degrees.
+//    Sweet spot in front 90 deg does extra damage. YELLOW. Sweet spot: ORANGE.
+// I need a new ship model. Simple--colour should be the main language DONE
 
 public class PlayerScript : MonoBehaviour {
 
@@ -56,6 +57,8 @@ public class PlayerScript : MonoBehaviour {
     public float timeFromZeroToMax = 0.001f;
     public float maxSpeed = 5.5f;
     Vector2 moveTowards = new Vector2(0,0);
+
+    public InputActionAsset inputActions;
 
     void Awake() {
         instance = this;
@@ -125,8 +128,10 @@ public class PlayerScript : MonoBehaviour {
             Dodge();
             PlayerInput.instance.SetDodgePressed(false);
         }
+
         
-        if (HealthScript.instance.isHealing && PlayerInput.instance.getDodgePressed()) {
+        
+        if (HealthScript.instance.isHealing && inputActions.FindAction("Dodge").WasPressedThisFrame()) {
             if (canBulletBreak && BBcount > 0) {
                 GameObject g = Instantiate(BulletBreaker);
                 g.SetActive(true);
@@ -168,6 +173,7 @@ public class PlayerScript : MonoBehaviour {
 
         //Start animation
         Instantiate(dodgePrefab, transform);
+        PlayerDodgeAudio.instance.PlayClip();
         
         trail.emitting = true;
 

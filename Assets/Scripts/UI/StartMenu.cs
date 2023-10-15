@@ -34,6 +34,7 @@ public class StartMenu : MonoBehaviour
         LevelController.GetComponent<Level1EnemyController>().start = false;
         ScoreManager.SetActive(false);
         BulletBreakers.SetActive(false);
+        PlayerInput.instance.EnableDodge(false);
     }
 
     // Update is called once per frame
@@ -70,6 +71,7 @@ public class StartMenu : MonoBehaviour
             ScoreManager.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(false);
             BulletBreakers.SetActive(true);
+            PlayerInput.instance.EnableDodge(true);
         }
         canStart = false;
     }

@@ -36,9 +36,11 @@ public class EnemyHP : Enemy
         else
             currentHP -= amnt*ArmorScaling;
 
-        if (amnt < 10) {
+        if (amnt < 30) {
+            //EnemyHitAudio.instance.PlayClip();
             shakeScreen.SmallShake();
         } else {
+            MeleeImpactAudio.instance.PlayClip();
             shakeScreen.MedShake();
         }
 
@@ -68,6 +70,7 @@ public class EnemyHP : Enemy
         //animator.Play("EnemyDeath");
         //Destroy(transform.gameObject);
         gameObject.GetComponent<EnemyAI>().OnDeath();
+        EnemyDieAudio.instance.PlayClip();
         shakeScreen.MedShake();
     }
 

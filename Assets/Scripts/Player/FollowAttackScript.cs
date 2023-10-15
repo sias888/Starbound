@@ -15,8 +15,10 @@ public class FollowAttackScript : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) {
         if (col.gameObject.tag == "Enemies") {
             if (!enemiesAlreadyHit.Contains(col.gameObject)) {
-                col.gameObject.GetComponentInParent<Enemy>().TakeDamage(30f);
-                enemiesAlreadyHit.Add(col.gameObject);
+                col.gameObject.GetComponentInParent<Enemy>().TakeDamage(Attack.instance.AttackDmgVal * ScoreManager.instance.GetScaling());
+                Attack.instance.FillStam();
+                ScoreManager.instance.Increment(100);
+                enemiesAlreadyHit.Add(col.gameObject.transform.parent.gameObject);
             }
         }
 

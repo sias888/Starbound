@@ -11,7 +11,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2572821086644274291}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -69,6 +70,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a6bd26d4dc16d4f9aca449e2f0528b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2572821086644274291
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ddd31c236bdc564eb16d5f0889bdea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-1692363848852644805
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,6 +122,18 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!114 &256480625081027626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0e8f25fa2b3b0409717daafc8b8037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1102 &883183680223671473
 AnimatorState:
   serializedVersion: 6
@@ -148,6 +173,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -1692363848852644805}
+  - {fileID: 256480625081027626}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -162,6 +188,18 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &4108990416195961009
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0e8f25fa2b3b0409717daafc8b8037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1102 &7250099483044961293
 AnimatorState:
   serializedVersion: 6
@@ -175,6 +213,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -3679636002806090448}
+  - {fileID: 4108990416195961009}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

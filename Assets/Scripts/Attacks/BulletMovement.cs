@@ -11,6 +11,7 @@ public class BulletMovement : MonoBehaviour
 
     private void OnEnable() {
         Invoke("Destroy", 10f);
+        EnemyBulletAudio.instance.PlayClip();
     }
 
     private void Destroy() {

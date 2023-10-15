@@ -29,8 +29,8 @@
                     "id": "0c721100-ada5-4c9f-86c3-766e0d05fc6a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
-                    "initialStateCheck": true
+                    "interactions": "Hold(duration=1)",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Melee",

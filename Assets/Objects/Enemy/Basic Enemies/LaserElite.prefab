@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ff3dcc260383242ac334a0bba8bf80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 200
+  MaxHP: 350
   currentHP: 0
   PaintWhite: {fileID: 4800000, guid: 88e852007247c074390f76972e99a7ce, type: 3}
   Armor: 1
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ff3dcc260383242ac334a0bba8bf80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 200
+  MaxHP: 350
   currentHP: 0
   PaintWhite: {fileID: 4800000, guid: 88e852007247c074390f76972e99a7ce, type: 3}
   Armor: 1
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ff3dcc260383242ac334a0bba8bf80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 200
+  MaxHP: 350
   currentHP: 0
   PaintWhite: {fileID: 4800000, guid: 88e852007247c074390f76972e99a7ce, type: 3}
   Armor: 1
@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ff3dcc260383242ac334a0bba8bf80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 450
+  MaxHP: 600
   currentHP: 0
   PaintWhite: {fileID: 4800000, guid: 88e852007247c074390f76972e99a7ce, type: 3}
   Armor: 1

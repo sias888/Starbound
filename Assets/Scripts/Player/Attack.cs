@@ -89,6 +89,7 @@ public class Attack : MonoBehaviour
         yield return new WaitForSeconds(anticipation);
 
         AttackPrefabClone = Instantiate(AttackPrefab, AttackPoint);
+        PlayerMeleeAudio.instance.PlayClip();
         attackState = AttackState.Attacking;
         yield return new WaitForSeconds(attackTime);
 
@@ -105,6 +106,7 @@ public class Attack : MonoBehaviour
     IEnumerator AttackFollowCooldown() {
         //yield return new WaitForSeconds(anticipation);
         AttackPrefabClone = Instantiate(AttackFollowPrefab, AttackPoint);
+        PlayerMeleeAudio.instance.PlayClip();
         attackState = AttackState.Attacking;
         yield return new WaitForSeconds(attackTime);
         
