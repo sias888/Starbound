@@ -3,6 +3,7 @@ TopDown Shooter Source Files
 
 A small 2D Pixel Art bullet-hell style action shooter I developed in my spare time. The objective is to beat the level without losing all your health, kill the boss, and get as high a score as possible!
 
+## Controls
 
 [WASD] to move
 
