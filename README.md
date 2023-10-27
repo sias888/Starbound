@@ -1,6 +1,6 @@
 # TDShooter
 TopDown Shooter Source Files
-
+Download and play here: https://sias888.itch.io/starbound
 A small 2D Pixel Art bullet-hell style action shooter I developed in my spare time. The objective is to beat the level without losing all your health, kill the boss, and get as high a score as possible!
 
 ## Controls
@@ -31,8 +31,6 @@ East face button to dodge.
 West face button to melee.
 
 North face button to heal.
-
-Download and play here: https://sias888.itch.io/starbound
 
 ## Level Design
 
