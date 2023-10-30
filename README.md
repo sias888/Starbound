@@ -46,5 +46,9 @@ The SimpleEnemyPattern also contains three public coroutine methods used to sequ
 
 One such extention (used most commonly in the level) is found in the class Assets/Scripts/EnemyPatterns/ThreeBasicEnemies.cs. The class contains a public coroutine method called StartSequence. This method sets all GameObjects in currentEnemies to active and runs the EnemyMoveRoutine coroutine, passing currentEnemies as the parameter. Additionally, (again using the Observer Pattern) the class is a listner to the EnemyDeathEventHandler.instance.onEnemyDeath event. When any enemy is destroyed by the player or a class method, ThreeBasicEnemies.OnEnemyDisable() is called. The OnEnemyDisable() method checks whether the destroyed enemy is in currentEnemies, and if all enemies in currentEnemies are destroyed, calls the AnnounceCompletion() method extended from the SimpleEnemyPattern class.
 
-Using this framework, multiple enemy patterns/waves can be created and sequentially destroyed by a wave manager class (Assets/Scripts/EnemyPatterns/Level1EnemyController.cs). When compared to a simple timer-based wave spawning method, this implementation allows for greater player agency, as (in a format with a finite number of waves) a stronger player can be rewarded for efficiently destroying enemies with a quicker next-wave spawn, while a weaker player can take their time in destroying a limited number of enemies without being worried about the next wave spawning before they are ready. 
+Using this framework, multiple enemy patterns/waves can be created and sequentially destroyed by a wave manager class (Assets/Scripts/EnemyPatterns/Level1EnemyController.cs). When compared to a simple timer-based wave spawning method, this implementation allows for greater player agency, as (in a format with a finite number of waves) a stronger player can be rewarded for efficiently destroying enemies with a quicker next-wave spawn, while a weaker player can take their time in destroying a limited number of enemies without being worried about the next wave spawning before they are ready.
+
+## Enemy Design
+
+(WIP)
 
