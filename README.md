@@ -1,4 +1,4 @@
-# TDShooter
+TDShooter
 TopDown Shooter Source Files
 Download and play here: https://sias888.itch.io/starbound
 A small 2D Pixel Art bullet-hell style action shooter I developed in my spare time. The objective is to beat the level without losing all your health, kill the boss, and get as high a score as possible!
@@ -52,4 +52,7 @@ Using this framework, multiple enemy patterns/waves can be created and sequentia
 
 (WIP)
 
-An enemy is represented in the project as a GameObject with a combination of two classes attached: EnemyHP, and an extension of EnemyAI. EnemyHP handles the health and damage related methods of an enemy unit, and EnemyAI concerns the basic methods and functions universal to all enemies that extend this type. 
+An enemy is represented in the project as a GameObject with a combination of two classes attached: EnemyHP, and an extension of EnemyAI. EnemyHP handles the health and damage related methods of an enemy unit, and EnemyAI concerns the basic methods and functions universal to all enemies that extend this type.
+
+EnemyHP can be found in Assets/Scripts/EnemyPatterns/EnemyHP.cs. It contains the currentHP and maxHP properties which represent the current and maximum health points of the enemy respectively, TakeDamage(float f) method, which reduces the currentHP by f amount, and an OnDeath() method which is called when currentHP is reduced to zero. OnDeath(), again using the observer method, alerts all listeners that the GameObject to which the script is attached has been destroyed, plays a death animation, and sets the enemy GameObject inactive. Classes that represent waves (as found in the above sections) uses this framework to determine when to end or begin a wave.
+
