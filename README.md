@@ -48,7 +48,8 @@ One such extention (used most commonly in the level) is found in the class Asset
 
 Using this framework, multiple enemy patterns/waves can be created and sequentially destroyed by a wave manager class (Assets/Scripts/EnemyPatterns/Level1EnemyController.cs). When compared to a simple timer-based wave spawning method, this implementation allows for greater player agency, as (in a format with a finite number of waves) a stronger player can be rewarded for efficiently destroying enemies with a quicker next-wave spawn, while a weaker player can take their time in destroying a limited number of enemies without being worried about the next wave spawning before they are ready.
 
-## Enemy Design
+## Enemy Implementation
 
 (WIP)
 
+An enemy is represented in the project as a GameObject with a combination of two classes attached: EnemyHP, and an extension of EnemyAI. EnemyHP handles the health and damage related methods of an enemy unit, and EnemyAI concerns the basic methods and functions universal to all enemies that extend this type. 
